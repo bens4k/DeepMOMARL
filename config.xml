@@ -1,0 +1,32 @@
+<IPCONIFG>
+    <Models>
+        <Model>ppo</Model>
+        <Model>ddpg</Model>
+        <Model>ddqn</Model>
+        <Model>sac</Model>
+        <Model>ddpg_centralized_global</Model>
+        <Model>ddpg_centralized_group</Model>
+        <Model>ppo_centralized_group</Model>
+    </Models>
+
+    <Devices>
+        <Device>cpu</Device>
+        <Device>cuda</Device>
+        <Device>mps</Device>
+    </Devices>
+
+    <OptimDirs>
+        <OptimDir>maximize</OptimDir>
+        <OptimDir>minimize</OptimDir>
+    </OptimDirs>
+
+    <RewardMethods>
+        <RewardMethod>weighted_sum</RewardMethod>
+        <RewardMethod>utopian_point</RewardMethod>
+    </RewardMethods>
+
+    <ActionSpaceTypes>
+        <ActionSpaceType>Continuous</ActionSpaceType>
+        <ActionSpaceType>Discrete</ActionSpaceType>
+    </ActionSpaceTypes>
+</IPCONIFG>

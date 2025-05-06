@@ -1,0 +1,132 @@
+{
+  "name": "tp3",
+  "model": "sac",
+  "model_params": {
+    "hidden_size": 256,
+    "gamma": 0.995,
+    "tau": 0.005,
+    "alpha": 0.1,
+    "lr": 0.001,
+    "policy_type": "Gaussian",
+    "target_update_interval": 1,
+    "automatic_entropy_tuning": true,
+    "batch_size": 256,
+    "memory_capacity": 1000000.0
+  },
+  "device": "cpu",
+  "utility_groups": [
+    {
+      "group_name": "upper",
+      "utility_method": "utopian_point",
+      "utils": [
+        {
+          "name": "objective",
+          "func": "tp_upper_obj_func",
+          "weight": 0.1,
+          "utopian_point": -18.6787,
+          "optim": "minimize",
+          "code": "from benchmark.TPBenchmark import TPBenchmark\r\n\r\nbenchmark = TPBenchmark(problem_id=3)\r\nx_u, x_l = benchmark.initialize_variables()\r\n\r\ndef tp_upper_obj_func(x):\r\n    return benchmark.upper_level_objective(x[0], x[1]).item()\r\n\r\n",
+          "from_constraints": false
+        },
+        {
+          "name": "constraint_violations",
+          "func": "tp_upper_constraint_violations",
+          "weight": 10,
+          "utopian_point": 0,
+          "optim": "minimize",
+          "code": "def tp_upper_constraint_violations(x):\r\n    return benchmark.upper_level_constraint_violations(x[0], x[1])\r\n\r\n",
+          "from_constraints": false
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "group_name": "lower",
+      "utility_method": "utopian_point",
+      "utils": [
+        {
+          "name": "objective",
+          "func": "tp_lower_obj_func",
+          "weight": 0.1,
+          "utopian_point": -1.0156,
+          "optim": "minimize",
+          "code": "def tp_lower_obj_func(x):\r\n    return benchmark.lower_level_objective(x[0], x[1]).item()\r\n\r\n",
+          "from_constraints": false
+        },
+        {
+          "name": "constraint_violations",
+          "func": "tp_lower_constraint_violations",
+          "weight": 10,
+          "utopian_point": 0,
+          "optim": "minimize",
+          "code": "def tp_lower_constraint_violations(x):\r\n    return benchmark.lower_level_constraint_violations(x[0], x[1])\r\n\r\n",
+          "from_constraints": false
+        }
+      ],
+      "constraints": []
+    }
+  ],
+  "variables": [
+    {
+      "action_space_type": "Continuous",
+      "action_space_shape": [
+        2
+      ],
+      "action_space_low": [
+        0,
+        0
+      ],
+      "action_space_high": [
+        15,
+        15
+      ],
+      "number_of_actions": 1,
+      "action_values": null,
+      "is_continuous": true,
+      "is_chance": false,
+      "sampling_space": null,
+      "sampling_code": null,
+      "util_group": "upper",
+      "name": "Upper",
+      "action_labels": [
+        "a"
+      ]
+    },
+    {
+      "action_space_type": "Continuous",
+      "action_space_shape": [
+        2
+      ],
+      "action_space_low": [
+        0,
+        0
+      ],
+      "action_space_high": [
+        15,
+        15
+      ],
+      "number_of_actions": 1,
+      "action_values": null,
+      "is_continuous": true,
+      "is_chance": false,
+      "sampling_space": null,
+      "sampling_code": null,
+      "util_group": "lower",
+      "name": "Lower",
+      "action_labels": [
+        "a"
+      ]
+    }
+  ],
+  "adj_matrix": [
+    [
+      0,
+      -1
+    ],
+    [
+      1,
+      -1
+    ]
+  ],
+  "env_name": "C:\\Users\\ab_be\\anaconda3\\envs\\rl"
+}

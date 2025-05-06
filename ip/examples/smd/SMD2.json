@@ -1,0 +1,114 @@
+{
+  "name": "SMD2",
+  "model": "sac",
+  "model_params": {
+    "hidden_size": 256,
+    "gamma": 0.995,
+    "tau": 0.005,
+    "alpha": 0.1,
+    "lr": 0.001,
+    "policy_type": "Gaussian",
+    "target_update_interval": 1,
+    "automatic_entropy_tuning": true,
+    "batch_size": 256,
+    "memory_capacity": 1000000.0
+  },
+  "device": "cpu",
+  "utility_groups": [
+    {
+      "group_name": "upper",
+      "utility_method": "utopian_point",
+      "utils": [
+        {
+          "name": "objective",
+          "func": "smd_upper_level_objective",
+          "weight": 1,
+          "utopian_point": 0,
+          "optim": "minimize",
+          "code": "from benchmark.SMDBenchmark import SMDBenchmark\r\n\r\n\r\nproblem_id = 2\r\n\r\np = 5\r\nq = 5\r\nr = 3\r\ns = 2\r\n   \r\nbenchmark = SMDBenchmark(problem_id=problem_id, p=p, q=q, r=r, s=s)\r\n   \r\nx_u, x_l = benchmark.initialize_variables()\r\n\r\n\r\ndef smd_upper_level_objective(x):\r\n    return benchmark.upper_level_objective(x[0], x[1]).item()\r\n\r\ndef smd_lower_obj_func(x):\r\n    return benchmark.lower_level_objective(x[0], x[1]).item()\r\n",
+          "from_constraints": false
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "group_name": "lower",
+      "utility_method": "utopian_point",
+      "utils": [
+        {
+          "name": "objective",
+          "func": "smd_lower_obj_func",
+          "weight": 1,
+          "utopian_point": 0,
+          "optim": "minimize",
+          "code": "",
+          "from_constraints": false
+        }
+      ],
+      "constraints": []
+    }
+  ],
+  "variables": [
+    {
+      "action_space_type": "Continuous",
+      "action_space_shape": [
+        2
+      ],
+      "action_space_low": [
+        -5,
+        -5
+      ],
+      "action_space_high": [
+        10,
+        1
+      ],
+      "number_of_actions": 1,
+      "action_values": null,
+      "is_continuous": true,
+      "is_chance": false,
+      "sampling_space": null,
+      "sampling_code": null,
+      "util_group": "upper",
+      "name": "Upper",
+      "action_labels": [
+        "action1"
+      ]
+    },
+    {
+      "action_space_type": "Continuous",
+      "action_space_shape": [
+        2
+      ],
+      "action_space_low": [
+        -5,
+        0
+      ],
+      "action_space_high": [
+        10,
+        2.718281828459045
+      ],
+      "number_of_actions": 1,
+      "action_values": null,
+      "is_continuous": true,
+      "is_chance": false,
+      "sampling_space": null,
+      "sampling_code": null,
+      "util_group": "lower",
+      "name": "Lower",
+      "action_labels": [
+        "action1"
+      ]
+    }
+  ],
+  "adj_matrix": [
+    [
+      0,
+      -1
+    ],
+    [
+      1,
+      -1
+    ]
+  ],
+  "env_name": "C:\\Users\\ab_be\\anaconda3\\envs\\rl"
+}
